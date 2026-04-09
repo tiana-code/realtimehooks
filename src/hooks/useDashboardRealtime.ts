@@ -33,29 +33,25 @@ export interface DashboardRealtimeData {
 }
 
 interface UseDashboardRealtimeOptions {
-    // Per-vessel telemetry
-    vesselId?: string;
-    tagCodes?: string[];
-    telemetryInterval?: number;
+    vesselId?: string | undefined;
+    tagCodes?: string[] | undefined;
+    telemetryInterval?: number | undefined;
 
-    // Fleet-wide aggregated metrics
-    vesselIds?: string[];
-    aggregationTagCodes?: string[];
-    aggregationInterval?: number;
+    vesselIds?: string[] | undefined;
+    aggregationTagCodes?: string[] | undefined;
+    aggregationInterval?: number | undefined;
 
-    // Alert filters
-    alertVesselFilter?: string;
-    alertSeverityFilter?: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
-    alertInterval?: number;
-    alertSummaryInterval?: number;
+    alertVesselFilter?: string | undefined;
+    alertSeverityFilter?: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | undefined;
+    alertInterval?: number | undefined;
+    alertSummaryInterval?: number | undefined;
 
-    // Stream toggles
-    enableTelemetry?: boolean;
-    enableAggregatedMetrics?: boolean;
-    enableAlerts?: boolean;
-    enableAlertSummary?: boolean;
+    enableTelemetry?: boolean | undefined;
+    enableAggregatedMetrics?: boolean | undefined;
+    enableAlerts?: boolean | undefined;
+    enableAlertSummary?: boolean | undefined;
 
-    baseUrl?: string;
+    baseUrl?: string | undefined;
 }
 
 /**
@@ -103,7 +99,7 @@ export const useDashboardRealtime = ({
                                      }: UseDashboardRealtimeOptions): DashboardRealtimeData => {
     const {
         data: telemetry,
-        connected: telemetryConnected,
+        isConnected: telemetryConnected,
         error: telemetryError,
         reconnect: reconnectTelemetry,
     } = useTelemetryStream({
@@ -116,7 +112,7 @@ export const useDashboardRealtime = ({
 
     const {
         data: aggregatedMetrics,
-        connected: aggregatedConnected,
+        isConnected: aggregatedConnected,
         error: aggregatedError,
         reconnect: reconnectAggregated,
     } = useAggregatedMetricsStream({
@@ -129,7 +125,7 @@ export const useDashboardRealtime = ({
 
     const {
         alerts,
-        connected: alertsConnected,
+        isConnected: alertsConnected,
         error: alertsError,
         reconnect: reconnectAlerts,
     } = useAlertStream({
@@ -142,7 +138,7 @@ export const useDashboardRealtime = ({
 
     const {
         summary: alertSummary,
-        connected: summaryConnected,
+        isConnected: summaryConnected,
         error: summaryError,
         reconnect: reconnectSummary,
     } = useAlertSummaryStream({

@@ -69,7 +69,7 @@ describe('useSSEStream', () => {
             useSSEStream({url: 'http://example.com/stream', eventName: 'data'}),
         );
 
-        expect(result.current.connected).toBe(false);
+        expect(result.current.isConnected).toBe(false);
         expect(result.current.error).toBeNull();
         expect(result.current.reconnectCount).toBe(0);
     });
@@ -104,7 +104,7 @@ describe('useSSEStream', () => {
             MockEventSource.instances[0]!.simulateOpen();
         });
 
-        expect(result.current.connected).toBe(true);
+        expect(result.current.isConnected).toBe(true);
         expect(result.current.error).toBeNull();
     });
 
@@ -174,7 +174,7 @@ describe('useSSEStream', () => {
         act(() => MockEventSource.instances[0]!.simulateOpen());
         act(() => MockEventSource.instances[0]!.simulateError());
 
-        expect(result.current.connected).toBe(false);
+        expect(result.current.isConnected).toBe(false);
         expect(result.current.error?.message).toBe('Test stream connection error');
         expect(onError).toHaveBeenCalledWith(expect.any(Error));
     });

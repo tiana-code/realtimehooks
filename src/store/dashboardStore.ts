@@ -392,6 +392,11 @@ export const useDashboardStore = create<DashboardState>()(
         }),
         {
             name: 'realtimehooks-dashboard-v1',
+            version: 1,
+            migrate: (persisted, version) => {
+                if (version === 0 || version === undefined) return persisted as DashboardState;
+                return persisted as DashboardState;
+            },
         },
     ),
 );

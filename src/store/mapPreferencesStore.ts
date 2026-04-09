@@ -211,6 +211,11 @@ export const useMapPreferencesStore = create<MapPreferencesState>()(
         }),
         {
             name: 'realtimehooks-map-preferences-v1',
+            version: 1,
+            migrate: (persisted, version) => {
+                if (version === 0 || version === undefined) return persisted as MapPreferencesState;
+                return persisted as MapPreferencesState;
+            },
         },
     ),
 );

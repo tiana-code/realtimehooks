@@ -14,7 +14,6 @@ export interface SSEStreamOptions<T> {
 
 export interface SSEStreamResult {
     status: StreamStatus;
-    connected: boolean;
     isConnected: boolean;
     error: StreamError | null;
     lastMessageAt: number | null;
@@ -28,7 +27,7 @@ export interface SSEStreamResult {
  *
  * @example
  * ```ts
- * const { connected, error } = useSSEStream<TelemetryValue[]>({
+ * const { isConnected, error } = useSSEStream<TelemetryValue[]>({
  *   url: 'https://api.example.com/telemetry/stream?vesselId=v-001',
  *   eventName: 'telemetry',
  *   enabled: true,
@@ -160,12 +159,9 @@ export function useSSEStream<T>(options: SSEStreamOptions<T>): SSEStreamResult {
         connect();
     }, [connect]);
 
-    const connected = status === 'connected';
-
     return {
         status,
-        connected,
-        isConnected: connected,
+        isConnected: status === 'connected',
         error: streamError,
         lastMessageAt,
         reconnectCount,
