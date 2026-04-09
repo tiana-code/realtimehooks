@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+.DS_Store
+*.tsbuildinfo
+.idea/
+.vscode/
+*.swp
+CLAUDE.md

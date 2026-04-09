@@ -1,0 +1,31 @@
+{
+  "name": "@itiana/realtimehooks",
+  "version": "0.1.0",
+  "description": "SSE real-time data hooks and Zustand state management patterns",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/geojson": "^7946.0.14",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.7",
+    "@vitest/coverage-v8": "^2.1.3",
+    "jsdom": "^25.0.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.5.3",
+    "vitest": "^2.1.3"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}
