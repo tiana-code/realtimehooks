@@ -4,31 +4,31 @@ import {resolveBaseUrl} from './resolveBaseUrl';
 import type {Alert, AlertSummary, StreamError} from '../types';
 
 interface UseAlertStreamOptions {
-    vesselId?: string;
-    severity?: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
-    intervalSeconds?: number;
-    enabled?: boolean;
-    onAlert?: (alerts: Alert[]) => void;
-    onError?: (error: Error) => void;
-    baseUrl?: string;
+    vesselId?: string | undefined;
+    severity?: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | undefined;
+    intervalSeconds?: number | undefined;
+    enabled?: boolean | undefined;
+    onAlert?: ((alerts: Alert[]) => void) | undefined;
+    onError?: ((error: Error) => void) | undefined;
+    baseUrl?: string | undefined;
 }
 
 interface UseAlertStreamResult {
     alerts: Alert[];
-    connected: boolean;
+    isConnected: boolean;
     error: StreamError | null;
     reconnect: () => void;
 }
 
 interface UseAlertSummaryStreamOptions {
-    intervalSeconds?: number;
-    enabled?: boolean;
-    baseUrl?: string;
+    intervalSeconds?: number | undefined;
+    enabled?: boolean | undefined;
+    baseUrl?: string | undefined;
 }
 
 interface UseAlertSummaryStreamResult {
     summary: AlertSummary | null;
-    connected: boolean;
+    isConnected: boolean;
     error: StreamError | null;
     reconnect: () => void;
 }
@@ -40,6 +40,7 @@ function buildAlertUrl(
     baseUrl?: string,
 ): string {
     const origin = resolveBaseUrl(baseUrl);
+    if (!origin) return '';
     const url = new URL('/api/v1/alerts/stream', origin);
     if (vesselId) url.searchParams.set('vesselId', vesselId);
     if (severity) url.searchParams.set('severity', severity);
@@ -49,6 +50,7 @@ function buildAlertUrl(
 
 function buildAlertSummaryUrl(intervalSeconds: number, baseUrl?: string): string {
     const origin = resolveBaseUrl(baseUrl);
+    if (!origin) return '';
     const url = new URL('/api/v1/alerts/stream/summary', origin);
     url.searchParams.set('intervalSeconds', intervalSeconds.toString());
     return url.toString();
@@ -93,7 +95,7 @@ export const useAlertStream = ({
         onErrorRef.current?.(err);
     }, []);
 
-    const {connected, error, reconnect} = useSSEStream<Alert[]>({
+    const {isConnected, error, reconnect} = useSSEStream<Alert[]>({
         url,
         eventName: 'alerts',
         enabled,
@@ -102,7 +104,7 @@ export const useAlertStream = ({
         streamLabel: 'Alert',
     });
 
-    return {alerts, connected, error, reconnect};
+    return {alerts, isConnected, error, reconnect};
 };
 
 /**
@@ -122,7 +124,7 @@ export const useAlertSummaryStream = ({
         setSummary(parsed);
     }, []);
 
-    const {connected, error, reconnect} = useSSEStream<AlertSummary>({
+    const {isConnected, error, reconnect} = useSSEStream<AlertSummary>({
         url,
         eventName: 'alert-summary',
         enabled,
@@ -130,7 +132,7 @@ export const useAlertSummaryStream = ({
         streamLabel: 'Alert summary',
     });
 
-    return {summary, connected, error, reconnect};
+    return {summary, isConnected, error, reconnect};
 };
 
 export default useAlertStream;

@@ -24,8 +24,8 @@ export function getTimestampMs(point: RoutePoint): number {
     const cached = timestampCache.get(point);
     if (cached !== undefined) return cached;
 
-    const ms = new Date(point.timestamp).getTime();
-    const valid = Number.isFinite(ms) ? ms : 0;
+    const epochMs = new Date(point.timestamp).getTime();
+    const valid = Number.isFinite(epochMs) ? epochMs : 0;
     if (valid > 0) timestampCache.set(point, valid);
     return valid;
 }

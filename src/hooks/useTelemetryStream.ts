@@ -6,32 +6,32 @@ import type {TelemetryValue, AggregatedMetrics, StreamError} from '../types';
 interface UseTelemetryStreamOptions {
     vesselId: string;
     tagCodes: string[];
-    intervalSeconds?: number;
-    enabled?: boolean;
-    onData?: (data: TelemetryValue[]) => void;
-    onError?: (error: Error) => void;
-    baseUrl?: string;
+    intervalSeconds?: number | undefined;
+    enabled?: boolean | undefined;
+    onData?: ((data: TelemetryValue[]) => void) | undefined;
+    onError?: ((error: Error) => void) | undefined;
+    baseUrl?: string | undefined;
 }
 
 interface UseTelemetryStreamResult {
     data: TelemetryValue[];
-    connected: boolean;
+    isConnected: boolean;
     error: StreamError | null;
     reconnect: () => void;
 }
 
 interface UseAggregatedMetricsStreamOptions {
-    vesselIds?: string[];
+    vesselIds?: string[] | undefined;
     tagCodes: string[];
-    intervalSeconds?: number;
-    enabled?: boolean;
-    onData?: (data: AggregatedMetrics) => void;
-    baseUrl?: string;
+    intervalSeconds?: number | undefined;
+    enabled?: boolean | undefined;
+    onData?: ((data: AggregatedMetrics) => void) | undefined;
+    baseUrl?: string | undefined;
 }
 
 interface UseAggregatedMetricsStreamResult {
     data: AggregatedMetrics | null;
-    connected: boolean;
+    isConnected: boolean;
     error: StreamError | null;
     reconnect: () => void;
 }
@@ -44,6 +44,7 @@ function buildTelemetryUrl(
 ): string {
     if (!vesselId || tagCodes.length === 0) return '';
     const origin = resolveBaseUrl(baseUrl);
+    if (!origin) return '';
     const url = new URL('/api/v1/telemetry/stream', origin);
     url.searchParams.set('vesselId', vesselId);
     url.searchParams.set('tagCodes', tagCodes.join(','));
@@ -59,6 +60,7 @@ function buildAggregatedUrl(
 ): string {
     if (tagCodes.length === 0) return '';
     const origin = resolveBaseUrl(baseUrl);
+    if (!origin) return '';
     const url = new URL('/api/v1/telemetry/stream/aggregated', origin);
     if (vesselIds && vesselIds.length > 0) {
         url.searchParams.set('vesselIds', vesselIds.join(','));
@@ -112,7 +114,7 @@ export const useTelemetryStream = ({
         onErrorRef.current?.(err);
     }, []);
 
-    const {connected, error, reconnect} = useSSEStream<TelemetryValue[]>({
+    const {isConnected, error, reconnect} = useSSEStream<TelemetryValue[]>({
         url,
         eventName: 'telemetry',
         enabled: enabled && !!vesselId && tagCodes.length > 0,
@@ -121,7 +123,7 @@ export const useTelemetryStream = ({
         streamLabel: 'Telemetry',
     });
 
-    return {data, connected, error, reconnect};
+    return {data, isConnected, error, reconnect};
 };
 
 /**
@@ -156,7 +158,7 @@ export const useAggregatedMetricsStream = ({
         onDataRef.current?.(parsed);
     }, []);
 
-    const {connected, error, reconnect} = useSSEStream<AggregatedMetrics>({
+    const {isConnected, error, reconnect} = useSSEStream<AggregatedMetrics>({
         url,
         eventName: 'aggregated-metrics',
         enabled: enabled && tagCodes.length > 0,
@@ -164,7 +166,7 @@ export const useAggregatedMetricsStream = ({
         streamLabel: 'Aggregated metrics',
     });
 
-    return {data, connected, error, reconnect};
+    return {data, isConnected, error, reconnect};
 };
 
 export default useTelemetryStream;

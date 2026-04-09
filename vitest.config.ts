@@ -5,5 +5,10 @@ export default defineConfig({
     environment: 'jsdom',
     globals: false,
     setupFiles: [],
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.ts'],
+      exclude: ['src/index.ts', 'src/**/index.ts'],
+    },
   },
 });

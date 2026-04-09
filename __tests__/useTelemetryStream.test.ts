@@ -63,7 +63,7 @@ describe('useTelemetryStream', () => {
         );
 
         expect(result.current.data).toEqual([]);
-        expect(result.current.connected).toBe(false);
+        expect(result.current.isConnected).toBe(false);
         expect(result.current.error).toBeNull();
     });
 
@@ -107,7 +107,7 @@ describe('useTelemetryStream', () => {
             MockEventSource.instances[0]!.simulateOpen();
         });
 
-        expect(result.current.connected).toBe(true);
+        expect(result.current.isConnected).toBe(true);
         expect(result.current.error).toBeNull();
     });
 
@@ -140,7 +140,7 @@ describe('useTelemetryStream', () => {
             MockEventSource.instances[0]!.simulateError();
         });
 
-        expect(result.current.connected).toBe(false);
+        expect(result.current.isConnected).toBe(false);
         expect(result.current.error).not.toBeNull();
         expect(result.current.error?.code).toBe('CONNECTION_FAILED');
         expect(onError).toHaveBeenCalledWith(expect.any(Error));
@@ -223,7 +223,7 @@ describe('useAggregatedMetricsStream', () => {
         );
 
         expect(result.current.data).toBeNull();
-        expect(result.current.connected).toBe(false);
+        expect(result.current.isConnected).toBe(false);
     });
 
     it('connects to the aggregated endpoint', () => {
