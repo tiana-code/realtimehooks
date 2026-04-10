@@ -253,3 +253,14 @@ notifications.
 
 **Callback refs**: `onData` / `onError` are captured in refs so callback identity
 changes never trigger SSE reconnects.
+
+
+## Release Status
+
+**0.1.0-alpha** - API is stabilising but not yet frozen. Minor versions may include breaking changes until `1.0.0`.
+
+---
+
+## License
+
+MIT - see [LICENSE](./LICENSE)
