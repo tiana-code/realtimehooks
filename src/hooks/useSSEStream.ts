@@ -134,7 +134,7 @@ export function useSSEStream<T>(options: SSEStreamOptions<T>): SSEStreamResult {
 
             if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
             reconnectTimeoutRef.current = setTimeout(() => {
-                if (enabled) connect();
+                connect();
             }, delay);
         };
     }, [url, eventName, enabled, reconnectMaxDelay, streamLabel]);
