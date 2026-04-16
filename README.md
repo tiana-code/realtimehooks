@@ -1,12 +1,9 @@
 # realtimehooks – SSE Real-Time Data Hooks & State Management
 
-A standalone TypeScript/React module demonstrating production-grade patterns for
-EventSource (SSE) streams, multi-stream composition, and Zustand state management
-with per-user persistence.
+A standalone TypeScript/React module for EventSource (SSE) streams,
+multi-stream composition, and Zustand state management with per-user persistence.
 
-Extracted and generalized from a 92-vessel maritime operations platform.
-
-## Production Context
+## Overview
 
 <p align="center">
   <img src="docs/dashboard.png" alt="Real-time vessel dashboard" width="720" />
@@ -21,46 +18,6 @@ Extracted and generalized from a 92-vessel maritime operations platform.
 - Zero-copy batch append: same state reference returned when no data changed
 - Zustand `persist` middleware with per-user isolated storage
 - Weather routing hook (`useIsochrone`) with utility formatters
-
-## Architecture
-
-```mermaid
-graph TD
-  subgraph SSE Streams
-    S1[Telemetry Stream<br>/api/v1/telemetry/stream]
-    S2[Aggregated Metrics<br>/api/v1/telemetry/stream/aggregated]
-    S3[Alerts Stream<br>/api/v1/alerts/stream]
-    S4[Alert Summary<br>/api/v1/alerts/stream/summary]
-  end
-
-  subgraph Hooks
-    H1[useTelemetryStream]
-    H2[useAggregatedMetricsStream]
-    H3[useAlertStream]
-    H4[useAlertSummaryStream]
-    H5[useDashboardRealtime<br>composition hook]
-    H6[useIsochrone<br>REST + state]
-  end
-
-  subgraph Zustand Stores
-    M[useMapStore<br>positions, trails, gaps<br>timeline, layers]
-    D[useDashboardStore<br>per-user layouts<br>widget configs]
-  end
-
-  subgraph React Components
-    C[Dashboard / Map Components]
-  end
-
-  S1 --> H1 --> H5
-  S2 --> H2 --> H5
-  S3 --> H3 --> H5
-  S4 --> H4 --> H5
-
-  H5 --> C
-  H6 --> C
-  M --> C
-  D --> C
-```
 
 ## Tech Stack
 

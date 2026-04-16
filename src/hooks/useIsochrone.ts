@@ -9,31 +9,6 @@ export interface UseIsochroneReturn {
     clear: () => void;
 }
 
-/**
- * Calculate isochrone weather routing contours and optimal route
- *
- * Calls a REST endpoint (POST /weather/isochrone) — not SSE
- * The `baseUrl` parameter lets you point at any compatible backend.
- * Automatically aborts in-flight requests when a new calculation is triggered
- * or the component unmounts.
- *
- * @example
- * ```tsx
- * const { data, loading, error, calculate, clear } = useIsochrone({
- *   baseUrl: 'https://ml-api.example.com',
- * });
- *
- * const handleCalculate = async () => {
- *   await calculate({
- *     vessel_id: 'my-vessel',
- *     origin: [52.20, 2.80],
- *     destination: [40.71, -74.00],
- *     departure_time: new Date(),
- *     base_speed_knots: 15,
- *   });
- * };
- * ```
- */
 export function useIsochrone(options?: { baseUrl?: string }): UseIsochroneReturn {
     const [data, setData] = useState<IsochroneResult | null>(null);
     const [loading, setLoading] = useState(false);

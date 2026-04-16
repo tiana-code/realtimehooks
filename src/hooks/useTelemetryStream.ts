@@ -70,23 +70,6 @@ function buildAggregatedUrl(
     return url.toString();
 }
 
-/**
- * Subscribe to real-time telemetry updates via SSE for a single vessel
- *
- * Features:
- * - Exponential backoff reconnection (1s → 30s max)
- * - Stable callbacks via refs (no reconnect on callback identity change)
- * - Clean teardown on unmount or options change
- *
- * @example
- * ```tsx
- * const { data, connected, error } = useTelemetryStream({
- *   vesselId: 'vessel-001',
- *   tagCodes: ['ME_RPM', 'ME_LO_TEMP', 'TANK_FO_PORT'],
- *   intervalSeconds: 5,
- * });
- * ```
- */
 export const useTelemetryStream = ({
                                        vesselId,
                                        tagCodes,
@@ -126,18 +109,6 @@ export const useTelemetryStream = ({
     return {data, isConnected, error, reconnect};
 };
 
-/**
- * Subscribe to aggregated fleet-wide telemetry metrics via SSE
- * Useful for dashboard widgets that aggregate across multiple vessels.
- *
- * @example
- * ```tsx
- * const { data, connected } = useAggregatedMetricsStream({
- *   tagCodes: ['ME_RPM', 'TANK_FO_PORT'],
- *   intervalSeconds: 30,
- * });
- * ```
- */
 export const useAggregatedMetricsStream = ({
                                                vesselIds,
                                                tagCodes,

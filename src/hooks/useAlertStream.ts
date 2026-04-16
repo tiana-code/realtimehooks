@@ -56,18 +56,6 @@ function buildAlertSummaryUrl(intervalSeconds: number, baseUrl?: string): string
     return url.toString();
 }
 
-/**
- * Subscribe to active alerts via SSE with optional vessel/severity filters
- *
- * @example
- * ```tsx
- * const { alerts, connected } = useAlertStream({
- *   vesselId: 'vessel-001',
- *   severity: 'CRITICAL',
- *   enabled: true,
- * });
- * ```
- */
 export const useAlertStream = ({
                                    vesselId,
                                    severity,
@@ -107,10 +95,6 @@ export const useAlertStream = ({
     return {alerts, isConnected, error, reconnect};
 };
 
-/**
- * Subscribe to alert summary statistics (counts by severity) via SSE
- * Intended for dashboard badge/KPI widgets
- */
 export const useAlertSummaryStream = ({
                                           intervalSeconds = 30,
                                           enabled = true,
