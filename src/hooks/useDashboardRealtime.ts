@@ -54,32 +54,6 @@ interface UseDashboardRealtimeOptions {
     baseUrl?: string | undefined;
 }
 
-/**
- * Unified hook that composes 4 SSE streams into a single data surface
- *
- * Each stream is independently enabled and reconnects with exponential backoff.
- * Connection/error states are exposed per-stream for fine-grained UI indicators
- *
- * @example
- * ```tsx
- * const {
- *   telemetry,
- *   alerts,
- *   alertSummary,
- *   connections,
- *   reconnectAll,
- * } = useDashboardRealtime({
- *   vesselId: selectedVesselId,
- *   tagCodes: ['ME_RPM', 'TANK_FO_PORT'],
- *   enableTelemetry: !!selectedVesselId,
- *   enableAlerts: true,
- *   enableAlertSummary: true,
- * });
- *
- * const { isFullyConnected, hasAnyError } = health;
- * const criticalCount = alertSummary?.critical ?? 0;
- * ```
- */
 export const useDashboardRealtime = ({
                                          vesselId,
                                          tagCodes = [],

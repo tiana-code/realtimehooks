@@ -21,20 +21,6 @@ export interface SSEStreamResult {
     reconnect: () => void;
 }
 
-/**
- * All specific SSE hooks in this package delegate to this hook — they only
- * supply URL construction, event name, and data parsing logic.
- *
- * @example
- * ```ts
- * const { isConnected, error } = useSSEStream<TelemetryValue[]>({
- *   url: 'https://api.example.com/telemetry/stream?vesselId=v-001',
- *   eventName: 'telemetry',
- *   enabled: true,
- *   onData: (data) => setTelemetry(data),
- * });
- * ```
- */
 export function useSSEStream<T>(options: SSEStreamOptions<T>): SSEStreamResult {
     const {
         url,
